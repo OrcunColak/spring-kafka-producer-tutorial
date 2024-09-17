@@ -21,6 +21,4 @@ class TextProducerTest {
     void testSendMessageWithTransaction() {
         producer.sendMessageWithTransaction("test message");
     }
-
-
 }
