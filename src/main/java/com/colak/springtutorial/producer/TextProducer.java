@@ -4,6 +4,7 @@ package com.colak.springtutorial.producer;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -19,13 +20,15 @@ public class TextProducer {
     // Constants for topic configuration
     private static final int PARTITION_COUNT = 8;
     private static final String TOPIC = "TEXT-DATA";
-    private static final short REPLICATION_FACTOR = 1;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
 
     @Autowired
     public void configureTopic(KafkaAdmin kafkaAdmin) {
-        NewTopic newTopic = new NewTopic(TOPIC, PARTITION_COUNT, REPLICATION_FACTOR);
+        NewTopic newTopic = TopicBuilder.name(TOPIC)
+                .partitions(PARTITION_COUNT)
+                .build();
+
         kafkaAdmin.createOrModifyTopics(newTopic);
     }
 
