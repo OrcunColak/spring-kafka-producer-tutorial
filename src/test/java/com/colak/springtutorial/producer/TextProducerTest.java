@@ -16,9 +16,4 @@ class TextProducerTest {
     void testSendMessages() {
         producer.sendMessages(List.of("line1", "line2"));
     }
-
-    @Test
-    void testSendMessageWithTransaction() {
-        producer.sendMessageWithTransaction("test message");
-    }
 }

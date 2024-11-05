@@ -8,7 +8,6 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,16 +39,6 @@ public class TextProducer {
             // Sends the message to the topic, distributing across partitions based on the line index
             String key = "KEY-" + (lineIndex % PARTITION_COUNT);
             kafkaTemplate.send(TOPIC, key, line);
-        });
-    }
-
-    @Transactional
-    public void sendMessageWithTransaction(String message) {
-        kafkaTemplate.executeInTransaction(kafkaOperations -> {
-            kafkaOperations.send(TOPIC, message);
-
-            // Return any value to indicate transaction success
-            return true;
         });
     }
 
